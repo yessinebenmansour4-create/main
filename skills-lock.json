@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "hyperframes": {
+      "source": "aibot88/sec_skill_store",
+      "sourceType": "github",
+      "skillPath": "skills/claudskills/hyperframes/SKILL.md",
+      "computedHash": "e8eac8e5251b7535479984352bd8c12542d147fc8db749fd8ea384f0b0a20f46"
+    }
+  }
+}
