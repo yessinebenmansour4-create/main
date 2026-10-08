@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #050806; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; }
+      .layer { position: absolute; inset: 0; }
+      #cam { transform-origin: 50% 50%; }
+      #cam img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      #vignette { background: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.55) 100%); }
+      .sweep { position: absolute; top: -20%; width: 220px; height: 140%; left: 0;
+        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,250,235,0.22) 50%, rgba(255,255,255,0) 100%);
+        transform: rotate(14deg); mix-blend-mode: screen; }
+      .ring { position: absolute; left: 50%; top: 50%; width: 296px; height: 296px; margin: -148px 0 0 -148px; border: 3px solid rgba(255,255,255,0.9); opacity: 0; }
+      #flash { background: #ffffff; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="3.5" data-width="1920" data-height="1080">
+      <div id="cam" class="layer"><img src="bg.jpg" alt="" /></div>
+      <div id="vignette" class="layer"></div>
+      <div class="sweep" id="sw1"></div>
+      <div class="sweep" id="sw2"></div>
+      <div class="ring" id="r1"></div>
+      <div class="ring" id="r2"></div>
+      <div id="flash" class="layer"></div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.set("#flash", { opacity: 1 }, 0);
+      tl.to("#flash", { opacity: 0, duration: 0.5, ease: "power2.out" }, 0.05);
+      tl.fromTo("#cam", { scale: 2.6, filter: "blur(8px) brightness(1.5)" },
+        { scale: 1.04, filter: "blur(0px) brightness(1)", duration: 1.5, ease: "expo.out" }, 0);
+      tl.to("#cam", { scale: 1.0, duration: 2.0, ease: "none" }, 1.5);
+      tl.fromTo("#sw1", { x: -400 }, { x: 2300, duration: 1.2, ease: "power2.inOut" }, 1.0);
+      tl.set("#sw2", { x: -800 }, 0);
+      // final scene: fade to black
+      tl.to("#cam", { filter: "blur(0px) brightness(0)", duration: 0.9, ease: "power1.in" }, 2.6);
+      tl.fromTo("#r1", { scale: 1, opacity: 0.9 }, { scale: 1.7, opacity: 0, duration: 1.0, ease: "power2.out" }, 0.45);
+      tl.fromTo("#r2", { scale: 1, opacity: 0.7 }, { scale: 2.3, opacity: 0, duration: 1.2, ease: "expo.out" }, 1.1);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
