@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template id="hook-template">
+      <style>
+        @font-face {
+          font-family: "Montserrat";
+          src: url("../assets/fonts/montserrat-latin-800-normal.woff2") format("woff2");
+          font-weight: 800;
+        }
+        @font-face {
+          font-family: "Montserrat";
+          src: url("../assets/fonts/montserrat-latin-900-normal.woff2") format("woff2");
+          font-weight: 900;
+        }
+        #hook-root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+        }
+        #hook-root .hook-inner {
+          width: 100%;
+          height: 100%;
+          padding: 236px 60px 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 18px;
+        }
+        #hook-root .hook-kicker {
+          font-family: "Montserrat", sans-serif;
+          font-weight: 800;
+          font-size: 38px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: #a6ddb8;
+          background: #12301f;
+          padding: 12px 28px;
+          border-radius: 14px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+        #hook-root .hook-title {
+          font-family: "Montserrat", sans-serif;
+          font-weight: 900;
+          font-size: 78px;
+          line-height: 1.05;
+          color: #f5f1e8;
+          background: #12301f;
+          padding: 18px 38px 22px;
+          border-radius: 22px;
+          box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+          white-space: nowrap;
+        }
+        #hook-root .hook-key {
+          position: relative;
+          display: inline-block;
+          color: #a6ddb8;
+        }
+        #hook-root .hook-underline {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -4px;
+          height: 8px;
+          border-radius: 4px;
+          background: #a6ddb8;
+          transform-origin: 0 50%;
+        }
+      </style>
+
+      <div id="hook-root" data-composition-id="hook" data-width="1080" data-height="1920">
+        <div class="hook-inner">
+          <div class="hook-kicker">IA · crypto · immobilier</div>
+          <div class="hook-title">
+            Où sont les
+            <span class="hook-key">bulles<span class="hook-underline"></span></span>&nbsp;?
+          </div>
+        </div>
+      </div>
+
+      <script>
+        const tl = gsap.timeline({ paused: true });
+        tl.fromTo(".hook-kicker", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 0.12);
+        tl.fromTo(".hook-title", { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.8)" }, 0.28);
+        tl.fromTo(".hook-underline", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "expo.out" }, 0.78);
+        tl.fromTo(".hook-key", { scale: 1 }, { scale: 1.1, duration: 0.16, ease: "sine.out", yoyo: true, repeat: 1 }, 0.82);
+        // Overlay leaves as the guest starts answering
+        tl.fromTo(".hook-inner", { y: 0, opacity: 1 }, { y: -60, opacity: 0, duration: 0.32, ease: "power2.in", immediateRender: false }, 2.55);
+        window.__timelines["hook"] = tl;
+      </script>
+    </template>
+  </body>
+</html>

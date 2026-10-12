@@ -1,0 +1,6 @@
+assets/master.mp4
+snapshots/
+.hyperframes/
+renders/*
+!renders/short-leconomique-9x16.mp4
+node_modules/

@@ -1,0 +1,134 @@
+{
+ "speed": 1.15,
+ "duration": 38.8696,
+ "segments": [
+  {
+   "i": 0,
+   "src_in": 7.166666666666667,
+   "src_out": 9.9,
+   "start": 0.0,
+   "end": 2.3768,
+   "text": "Quels sont les principaux risques selon vous pour les années à venir ?"
+  },
+  {
+   "i": 1,
+   "src_in": 10.766666666666667,
+   "src_out": 15.5,
+   "start": 2.3768,
+   "end": 6.4928,
+   "text": "C'est toujours très difficile, les économistes, on est très mauvais pour prédire l'avenir."
+  },
+  {
+   "i": 2,
+   "src_in": 16.233333333333334,
+   "src_out": 18.766666666666666,
+   "start": 6.4928,
+   "end": 8.6957,
+   "text": "On peut quand même identifier des signaux"
+  },
+  {
+   "i": 3,
+   "src_in": 19.3,
+   "src_out": 20.5,
+   "start": 8.6957,
+   "end": 9.7391,
+   "text": "plus ou moins forts"
+  },
+  {
+   "i": 4,
+   "src_in": 20.933333333333334,
+   "src_out": 22.2,
+   "start": 9.7391,
+   "end": 10.8406,
+   "text": "dans certains secteurs."
+  },
+  {
+   "i": 5,
+   "src_in": 23.033333333333335,
+   "src_out": 28.266666666666666,
+   "start": 10.8406,
+   "end": 15.3913,
+   "text": "Il y a des segments entiers de la tech et de l'IA qui sont quand même survalorisés. L'IPO de SpaceX"
+  },
+  {
+   "i": 6,
+   "src_in": 28.733333333333334,
+   "src_out": 30.733333333333334,
+   "start": 15.3913,
+   "end": 17.1304,
+   "text": "récemment indique quand même assez bien"
+  },
+  {
+   "i": 7,
+   "src_in": 31.333333333333332,
+   "src_out": 34.36666666666667,
+   "start": 17.1304,
+   "end": 19.7681,
+   "text": "la fébrilité des marchés dans le domaine."
+  },
+  {
+   "i": 8,
+   "src_in": 35.733333333333334,
+   "src_out": 40.93333333333333,
+   "start": 19.7681,
+   "end": 24.2899,
+   "text": "Dans les cryptos, il y a quand même des segments entiers qui sont très spéculatifs. Il y a quelques leaders qui sont solides, mais"
+  },
+  {
+   "i": 9,
+   "src_in": 41.333333333333336,
+   "src_out": 42.733333333333334,
+   "start": 24.2899,
+   "end": 25.5072,
+   "text": "des secteurs entiers qui sont"
+  },
+  {
+   "i": 10,
+   "src_in": 43.06666666666667,
+   "src_out": 44.63333333333333,
+   "start": 25.5072,
+   "end": 26.8696,
+   "text": "assez spéculatifs."
+  },
+  {
+   "i": 11,
+   "src_in": 46.46666666666667,
+   "src_out": 47.93333333333333,
+   "start": 26.8696,
+   "end": 28.1449,
+   "text": "Dans l'immobilier de bureau"
+  },
+  {
+   "i": 12,
+   "src_in": 48.13333333333333,
+   "src_out": 50.233333333333334,
+   "start": 28.1449,
+   "end": 29.971,
+   "text": "également, il y a quand même une bulle."
+  },
+  {
+   "i": 13,
+   "src_in": 53.86666666666667,
+   "src_out": 56.86666666666667,
+   "start": 29.971,
+   "end": 32.5797,
+   "text": "Après, il y a des zones grises où la dynamique est"
+  },
+  {
+   "i": 14,
+   "src_in": 57.1,
+   "src_out": 59.166666666666664,
+   "start": 32.5797,
+   "end": 34.3768,
+   "text": "pas très claire, mais dans la green tech notamment"
+  },
+  {
+   "i": 15,
+   "src_in": 59.7,
+   "src_out": 64.86666666666666,
+   "start": 34.3768,
+   "end": 38.8696,
+   "text": "il y a peut-être des phénomènes de survalorisation, et dans l'immobilier résidentiel ça dépend un peu des pays."
+  }
+ ]
+}

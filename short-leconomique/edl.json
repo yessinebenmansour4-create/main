@@ -1,0 +1,87 @@
+{
+  "source": "82223b8f-short_leconomique_compr_ss_.mp4",
+  "speed": 1.15,
+  "note": "Source window [5, 66.816] (first 5 s and last 24 s removed). Segments below are the kept ranges in source seconds; silences, 'heu', false starts and repetitions are removed.",
+  "segments": [
+    {
+      "in": 7.17,
+      "out": 9.9,
+      "text": "Quels sont les principaux risques selon vous pour les années à venir ?"
+    },
+    {
+      "in": 10.78,
+      "out": 15.51,
+      "text": "C'est toujours très difficile, les économistes, on est très mauvais pour prédire l'avenir."
+    },
+    {
+      "in": 16.22,
+      "out": 18.78,
+      "text": "On peut quand même identifier des signaux"
+    },
+    {
+      "in": 19.3,
+      "out": 20.5,
+      "text": "plus ou moins forts"
+    },
+    {
+      "in": 20.92,
+      "out": 22.2,
+      "text": "dans certains secteurs."
+    },
+    {
+      "in": 23.04,
+      "out": 28.27,
+      "text": "Il y a des segments entiers de la tech et de l'IA qui sont quand même survalorisés. L'IPO de SpaceX"
+    },
+    {
+      "in": 28.73,
+      "out": 30.74,
+      "text": "récemment indique quand même assez bien"
+    },
+    {
+      "in": 31.33,
+      "out": 34.38,
+      "text": "la fébrilité des marchés dans le domaine."
+    },
+    {
+      "in": 35.72,
+      "out": 40.94,
+      "text": "Dans les cryptos, il y a quand même des segments entiers qui sont très spéculatifs. Il y a quelques leaders qui sont solides, mais"
+    },
+    {
+      "in": 41.32,
+      "out": 42.74,
+      "text": "des secteurs entiers qui sont"
+    },
+    {
+      "in": 43.06,
+      "out": 44.62,
+      "text": "assez spéculatifs."
+    },
+    {
+      "in": 46.45,
+      "out": 47.92,
+      "text": "Dans l'immobilier de bureau"
+    },
+    {
+      "in": 48.12,
+      "out": 50.24,
+      "text": "également, il y a quand même une bulle."
+    },
+    {
+      "in": 53.87,
+      "out": 56.88,
+      "text": "Après, il y a des zones grises où la dynamique est"
+    },
+    {
+      "in": 57.11,
+      "out": 59.16,
+      "text": "pas très claire, mais dans la green tech notamment"
+    },
+    {
+      "in": 59.71,
+      "out": 64.88,
+      "text": "il y a peut-être des phénomènes de survalorisation, et dans l'immobilier résidentiel ça dépend un peu des pays."
+    }
+  ]
+}

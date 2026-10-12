@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template id="outro-template">
+      <style>
+        @font-face {
+          font-family: "Montserrat";
+          src: url("../assets/fonts/montserrat-latin-800-normal.woff2") format("woff2");
+          font-weight: 800;
+        }
+        @font-face {
+          font-family: "Playfair Display";
+          src: url("../assets/fonts/playfair-display-latin-600-normal.woff2") format("woff2");
+          font-weight: 600;
+        }
+        #outro-root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+        }
+        #outro-root .outro-inner {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          background: #12301f;
+        }
+        /* 1600x900 ESCP artwork scaled to cover 1920 px of height, centred on the logo box */
+        #outro-root .plate {
+          position: absolute;
+          left: -1166.67px;
+          top: 0;
+          width: 3413.33px;
+          height: 1920px;
+          transform-origin: 1707.7px 959px;
+        }
+        #outro-root .plate-bg {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 3413.33px;
+          height: 1920px;
+          filter: blur(1.5px) saturate(0.9);
+        }
+        #outro-root .plate-box {
+          position: absolute;
+          left: 1446.4px;
+          top: 697.6px;
+          width: 522.7px;
+          height: 522.7px;
+          overflow: visible;
+        }
+        #outro-root .box-line {
+          fill: none;
+          stroke: #f5f1e8;
+          stroke-width: 4.5;
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+        }
+        #outro-root .plate-e {
+          position: absolute;
+          left: 1521.1px;
+          top: 740.3px;
+          width: 369.1px;
+          height: 445.9px;
+        }
+        #outro-root .outro-veil {
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(ellipse 70% 38% at 50% 50%, rgba(18, 48, 31, 0) 0%, rgba(18, 48, 31, 0) 55%, rgba(12, 32, 21, 0.5) 100%),
+            radial-gradient(ellipse 85% 30% at 50% 76%, rgba(10, 28, 18, 0.82) 0%, rgba(10, 28, 18, 0.55) 55%, rgba(10, 28, 18, 0) 100%);
+        }
+        #outro-root .outro-text {
+          position: absolute;
+          inset: 0;
+          padding: 1318px 80px 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 26px;
+        }
+        #outro-root .wordmark {
+          font-family: "Playfair Display", serif;
+          font-weight: 600;
+          font-size: 74px;
+          letter-spacing: 0.12em;
+          color: #f5f1e8;
+          text-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+          white-space: nowrap;
+        }
+        #outro-root .outro-rule {
+          width: 140px;
+          height: 3px;
+          border-radius: 2px;
+          background: #a6ddb8;
+        }
+        #outro-root .cta {
+          font-family: "Montserrat", sans-serif;
+          font-weight: 800;
+          font-size: 36px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: #f5f1e8;
+          background: rgba(18, 48, 31, 0.92);
+          border: 2px solid rgba(166, 221, 184, 0.55);
+          padding: 16px 34px;
+          border-radius: 999px;
+          white-space: nowrap;
+        }
+        #outro-root .cta-accent {
+          color: #a6ddb8;
+        }
+      </style>
+
+      <div id="outro-root" data-composition-id="outro" data-width="1080" data-height="1920">
+        <div class="outro-inner">
+          <div class="plate" data-layout-allow-overflow>
+            <img class="plate-bg" src="../assets/escp-bg-clean.jpg" alt="" />
+            <svg class="plate-box" viewBox="0 0 522.7 522.7">
+              <path class="box-line" pathLength="1" d="M261.35 0 H0 V522.7 H261.35" />
+              <path class="box-line" pathLength="1" d="M261.35 0 H522.7 V522.7 H261.35" />
+            </svg>
+            <img class="plate-e" src="../assets/logo-e.png" alt="" />
+          </div>
+          <div class="outro-veil"></div>
+          <div class="outro-text">
+            <div class="wordmark">L’ÉCONOMIQUE</div>
+            <div class="outro-rule"></div>
+            <div class="cta">Épisode complet <span class="cta-accent">·</span> lien en bio</div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        const tl = gsap.timeline({ paused: true });
+        // Crossfade in over the zooming/blurring footage (host handles the footage side)
+        tl.fromTo(".outro-inner", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "sine.inOut" }, 0);
+        // Slow dolly-in on the ESCP facade for the whole outro
+        tl.fromTo(".plate", { scale: 1 }, { scale: 1.09, duration: 3.8, ease: "none" }, 0);
+        // The frame traces itself from the top centre, both sides at once
+        tl.fromTo(".box-line", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.95, ease: "power2.inOut" }, 0.32);
+        // Monogram lands inside the frame
+        tl.fromTo(".plate-e", { opacity: 0, scale: 1.18, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.75, ease: "expo.out" }, 0.88);
+        tl.fromTo(".wordmark", { y: 34, opacity: 0, scale: 1.06 }, { y: 0, opacity: 1, scale: 1, duration: 0.7, ease: "power3.out" }, 1.32);
+        tl.fromTo(".outro-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.out" }, 1.6);
+        tl.fromTo(".cta", { y: 26, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "sine.out" }, 1.8);
+        window.__timelines["outro"] = tl;
+      </script>
+    </template>
+  </body>
+</html>
