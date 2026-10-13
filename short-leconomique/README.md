@@ -22,7 +22,7 @@ Rendu final : `renders/short-leconomique-9x16.mp4`
 - **Hook** (0 à 2,9 s) : « IA · crypto · immobilier — Où sont les bulles ? », placé en haut de l'écran pour laisser
   la zone des sous-titres libre.
 - **Outro** (3,8 s) : la façade ESCP teintée en vert avec un zoom lent. Le cadre se trace, puis le « E » apparaît,
-  suivi du wordmark « L'ÉCONOMIQUE » et du call-to-action « Épisode complet · lien en bio ».
+  suivi du wordmark « L'ÉCONOMIQUE » et du call-to-action « Épisode complet en bio ».
 
 ## Fichiers
 
