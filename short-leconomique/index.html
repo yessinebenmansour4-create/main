@@ -32,20 +32,24 @@
         overflow: hidden;
         transform-origin: 50% 40%;
       }
+      #shake {
+        position: absolute;
+        inset: 0;
+      }
       #cam {
         position: absolute;
         left: 0;
         top: 0;
-        width: 2880px;
-        height: 1620px;
+        width: 3840px;
+        height: 2160px;
         transform-origin: 0 0;
       }
       #master {
         position: absolute;
         left: 0;
         top: 0;
-        width: 2880px;
-        height: 1620px;
+        width: 3840px;
+        height: 2160px;
         object-fit: fill;
       }
     </style>
@@ -59,8 +63,9 @@
       data-width="1080"
       data-height="1920"
     >
-      <!-- Edited master: cuts + x1.15 speed-up + loudness already baked in (scripts/build_master.py) -->
+      <!-- Edited master: cuts + x1.15 speed-up + loudness + AI restoration baked in (scripts/build_master.py, scripts/enhance_master.py) -->
       <div id="stage">
+        <div id="shake">
         <div id="cam" data-layout-allow-overflow>
           <video
             id="master"
@@ -72,6 +77,7 @@
             playsinline
             data-has-audio="true"
           ></video>
+        </div>
         </div>
       </div>
 
@@ -106,8 +112,8 @@
       const tl = gsap.timeline({ paused: true });
 
       // ---------- Virtual camera over the 16:9 master ----------
-      // Coordinates of faces are in source pixels (1920x1080); the master is 2880x1620 (x1.5).
-      const FW = 1080, FH = 1920, MW = 2880, MH = 1620, K = MW / 1920, BASE = FH / MH;
+      // Coordinates of faces are in source pixels (1920x1080); the restored master is 3840x2160 (x2).
+      const FW = 1080, FH = 1920, MW = 3840, MH = 2160, K = MW / 1920, BASE = FH / MH;
       const FPS = 30;
       const at = (frame) => frame / FPS - 0.001; // start a move just before the cut frame
 
@@ -122,7 +128,7 @@
         tl.fromTo("#cam", from, { ...to, duration: Math.max(0.01, t1 - t0), ease, immediateRender: t0 <= 0 }, Math.max(0, t0));
       }
 
-      // [startFrame, endFrame, faceX, faceY, zoomIn, zoomOut, punchTime?, punchZoom?]
+      // ---- Part 1 (0 -> 19.77 s): [startFrame, endFrame, faceX, faceY, zoomIn, zoomOut, punchTime?, punchZoom?]
       // Jump cuts alternate wide/tight framing; slow push-ins keep every shot moving.
       const SHOTS = [
         [0, 71, 869, 404, 1.12, 1.2],
@@ -134,15 +140,6 @@
         [462, 514, 910, 426, 1.15, 1.19],
         [514, 523, 925, 423, 1.0, 1.01],
         // 523 -> 593: wide shot, lateral travelling (below)
-        [593, 699, 1522, 439, 1.2, 1.24, 22.35, 1.32], // "très spéculatifs" (wide)
-        [699, 729, 912, 415, 1.0, 1.03],
-        [729, 765, 912, 410, 1.26, 1.29],
-        [765, 806, 907, 419, 1.04, 1.08],
-        [806, 844, 925, 440, 1.27, 1.3],
-        [844, 899, 919, 440, 1.0, 1.03, 29.35, 1.27], // "une bulle"
-        [899, 977, 913, 418, 1.12, 1.18],
-        [977, 1031, 913, 433, 1.3, 1.33],
-        [1031, 1166, 916, 445, 1.0, 1.03, 35.8, 1.22], // "survalorisation"
       ];
 
       for (const [f0, f1, cx, fy, z0, z1, pt, pz] of SHOTS) {
@@ -158,12 +155,53 @@
         }
       }
 
+      // ---- Part 2 (19.77 s -> end): nervous editing.
+      // Every cut lands with a zoom "kick" that snaps back, then snap zooms (slight overshoot) hit the
+      // key words. [startFrame, endFrame, faceX, faceY, baseZoom, [[time, zoom], ...]]
+      // Wide shot keeps zoom >= 1.2 (source watermark), close-ups stay <= 1.45 (definition).
+      const NERVOUS = [
+        [593, 699, 1522, 439, 1.2, [[20.12, 1.32], [21.0, 1.24], [22.35, 1.38]]], // cryptos / segments / très spéculatifs
+        [699, 729, 912, 415, 1.0, [[23.85, 1.14]]], // solides
+        [729, 765, 912, 410, 1.24, [[24.62, 1.36]]], // secteurs entiers
+        [765, 806, 907, 419, 1.04, [[25.78, 1.2]]], // assez spéculatifs
+        [806, 844, 925, 440, 1.26, [[27.15, 1.34], [27.78, 1.42]]], // immobilier / de bureau
+        [844, 899, 919, 440, 1.0, [[28.5, 1.1], [29.35, 1.32]]], // également / une bulle
+        [899, 977, 913, 418, 1.06, [[30.6, 1.22], [31.95, 1.3]]], // zones grises / dynamique
+        [977, 1031, 913, 433, 1.12, [[33.05, 1.22], [33.58, 1.36]]], // claire / green tech
+        [1031, 1166, 916, 445, 1.0, [[35.05, 1.1], [35.8, 1.3], [37.1, 1.16], [37.9, 1.3]]], // phénomènes / survalorisation / résidentiel / ça dépend
+      ];
+      const KICK = 1.07, KICK_T = 0.24, SNAP_T = 0.13, DRIFT = 0.012;
+
+      for (const [f0, f1, cx, fy, z, keys] of NERVOUS) {
+        const t0 = at(f0), t1 = at(f1);
+        move(t0, t0 + KICK_T, cam(z * KICK, cx, fy), cam(z, cx, fy), "expo.out");
+        let tCur = t0 + KICK_T, zCur = z;
+        for (const [tk, zk] of [...keys, [t1, null]]) {
+          const zDrift = zCur + DRIFT;
+          move(tCur, tk, cam(zCur, cx, fy), cam(zDrift, cx, fy), "sine.inOut");
+          if (zk === null) break;
+          move(tk, tk + SNAP_T, cam(zDrift, cx, fy), cam(zk, cx, fy), "back.out(2.2)");
+          tCur = tk + SNAP_T;
+          zCur = zk;
+        }
+      }
+
+      // Impact shake on the two strongest words (separate wrapper so it never fights the camera)
+      const SHAKE = [[10, -6], [-8, 5], [6, -4], [-4, 3], [2, -1], [0, 0]];
+      for (const t of [29.35, 35.8]) {
+        let prev = [0, 0];
+        SHAKE.forEach(([sx, sy], i) => {
+          tl.fromTo("#shake", { x: prev[0], y: prev[1] }, { x: sx, y: sy, duration: 0.04, ease: "none", immediateRender: false }, t + i * 0.04);
+          prev = [sx, sy];
+        });
+      }
+
       // Wide shot: start on the host listening, then travel + push in across the set to the guest.
       // Guest framing stays at zoom >= 1.2 so the source's corner "E" watermark stays out of frame.
       const wideIn = at(523), wideOut = at(593);
       move(wideIn, wideIn + 0.3, cam(1.0, 330, 396), cam(1.0, 345, 396), "none");
-      move(wideIn + 0.3, wideIn + 1.55, cam(1.0, 345, 396), cam(1.3, 1515, 440), "power2.inOut");
-      move(wideIn + 1.55, wideOut, cam(1.3, 1515, 440), cam(1.33, 1515, 440), "sine.out");
+      move(wideIn + 0.3, wideIn + 1.55, cam(1.0, 345, 396), cam(1.36, 1515, 440), "power2.inOut");
+      move(wideIn + 1.55, wideOut, cam(1.36, 1515, 440), cam(1.39, 1515, 440), "sine.out");
 
       // ---------- Footage side of the outro transition (outro fades in on top, see compositions/outro.html) ----------
       tl.fromTo("#stage", { scale: 1, filter: "blur(0px)" }, { scale: 1.12, filter: "blur(14px)", duration: 0.37, ease: "power2.in", immediateRender: false }, 38.5);

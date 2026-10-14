@@ -1,13 +1,14 @@
-"""Build the edited 16:9 master (cuts + speed-up + loudness) from edl.json.
+"""Build the edited 16:9 master (cuts + speed-up + loudness) from edl.json, at source resolution.
 
-Usage: python3 scripts/build_master.py <source.mp4> <out.mp4>
+Usage: python3 scripts/build_master.py <source.mp4> <out.mkv>
+The output is lossless (FFV1 + FLAC) and feeds scripts/enhance_master.py, which produces the
+restored 3840x2160 assets/master.mp4 used by the composition.
 Writes assets/master-timing.json with each segment's start/end on the output timeline.
 """
 import json, subprocess, sys, os
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FPS = 30
-UPSCALE = (2880, 1620)  # 1.5x lanczos so the browser downsizes instead of upscaling
 
 edl = json.load(open(os.path.join(HERE, "edl.json")))
 src, out = sys.argv[1], sys.argv[2]
@@ -26,14 +27,13 @@ for i, s in enumerate(edl["segments"]):
     t_out += d / speed
 
 n = len(edl["segments"])
-w, h = UPSCALE
 parts.append("".join(labels) + f"concat=n={n}:v=1:a=1[vc][ac]")
-parts.append(f"[vc]setpts=PTS/{speed},fps={FPS},scale={w}:{h}:flags=lanczos,unsharp=5:5:0.45:5:5:0.0,format=yuv420p[vo]")
+# Mild temporal denoise calms the source's compression shimmer before AI restoration
+parts.append(f"[vc]setpts=PTS/{speed},fps={FPS},hqdn3d=0:0:3:3,format=yuv444p[vo]")
 parts.append(f"[ac]atempo={speed},highpass=f=70,loudnorm=I=-16:TP=-1.5:LRA=9,aresample=48000[ao]")
 
 cmd = ["ffmpeg", "-y", "-v", "error", "-i", src, "-filter_complex", ";".join(parts),
-       "-map", "[vo]", "-map", "[ao]", "-c:v", "libx264", "-preset", "slow", "-crf", "15",
-       "-g", "15", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", out]
+       "-map", "[vo]", "-map", "[ao]", "-c:v", "ffv1", "-level", "3", "-c:a", "flac", out]
 subprocess.run(cmd, check=True)
 json.dump({"speed": speed, "duration": round(t_out, 4), "segments": timing},
           open(os.path.join(HERE, "assets", "master-timing.json"), "w"), ensure_ascii=False, indent=1)
