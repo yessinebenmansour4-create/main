@@ -20,10 +20,11 @@ Rendu final : `renders/short-leconomique-9x16.mp4`
 - **Caméra virtuelle** : le 16:9 est recadré en 9:16 sur le visage de l'intervenant.
   - Chaque jump cut alterne plan serré et plan plus large.
   - Des travellings avant lents animent tous les plans.
-  - Des punch-ins soulignent « survalorisés », « très spéculatifs », « une bulle » et « survalorisation ».
+  - Un zoom rapide et fluide (0,28 s, léger rebond) frappe le mot fort de chaque phrase, puis le plan reste serré
+    jusqu'à la coupe suivante : « risques », « très mauvais », « signaux », « survalorisés », « très
+    spéculatifs », « assez spéculatifs », « une bulle », « zones grises », « survalorisation ».
   - Sur le plan large, la caméra fait un travelling latéral de l'animateur vers l'invité.
-  - Partie 2 (à partir de 19,8 s), plus nerveuse : à-coup de zoom à chaque coupe, zooms rapides avec léger
-    rebond sur les mots clés, et tremblement d'impact sur « une bulle » et « survalorisation ».
+  - Un tremblement d'impact accompagne « une bulle » et « survalorisation ».
 - **Hook** (0 à 2,9 s) : « IA · crypto · immobilier — Où sont les bulles ? » en Tinos (style Times New Roman), sur un
   cartouche vert émeraude, placé en haut de l'écran pour laisser la zone des sous-titres libre.
 - **Outro** (3,8 s) : la façade ESCP teintée en vert avec un zoom lent. Le cadre se trace, puis le « E » apparaît,
@@ -55,6 +56,8 @@ python3 scripts/build_master.py <extrait_source.mp4> master-native.mkv
 python3 scripts/esrgan_onnx.py realesr-general-x4v3.pth realesr-general-wdn-x4v3.pth 0.25 srvgg.onnx
 node scripts/export_camera.mjs <dossier puppeteer-core> <chrome> camera.json
 python3 scripts/enhance_master.py master-native.mkv camera.json srvgg.onnx assets/master.mp4
+# après un changement de cadrage, ne restaurer que les images dont la zone visible a changé :
+# python3 scripts/enhance_master.py master-native.mkv camera-new.json srvgg.onnx new.mp4 --reuse old.mp4 camera-old.json
 npx hyperframes@0.8.149 check
 npx hyperframes@0.8.149 render -o renders/short-leconomique-9x16.mp4 --fps 30 --crf 14 --video-frame-format jpg
 ```
